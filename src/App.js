@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import Home from './pages/Home';
+import BookDetails from './pages/BookDetails';
+import Admin from './pages/Admin';
+import { useState } from 'react';
+import booksData from './data/books.json';
 
 function App() {
+  const [books, setBooks] = useState(booksData);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <nav className="bg-blue-500 p-4 flex gap-4">
+        <Link to="/" className="text-white hover:underline">Home</Link>
+        <Link to="/admin" className="text-white hover:underline">Admin</Link>
+      </nav>
+      <Routes>
+        <Route path="/" element={<Home books={books} />} />
+        <Route path="/book/:id" element={<BookDetails books={books} setBooks={setBooks} />} />
+        <Route path="/admin" element={<Admin books={books} setBooks={setBooks} />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
